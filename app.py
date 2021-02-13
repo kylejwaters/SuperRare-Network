@@ -17,7 +17,7 @@ import pandas as pd
 # Data and Variables
 ########
 
-url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors.xlsx?raw=True"
+url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors.csv?raw=True"
 tabtitle='----'
 myheading='SR Ego Graph Artnome'
 githublink='https://github.com/kylejwaters/SuperRare-Network'
@@ -27,7 +27,7 @@ sourceurl='https://superrare.co/'
 #Load data
 ###########
 
-df_collector_artist_pairs = pd.read_excel(url_github_SR_data)    
+df_collector_artist_pairs = pd.read_csv(url_github_SR_data)    
 #Create pairings
 df_pairs = pd.DataFrame()
 df_pairs["From"] = df_collector_artist_pairs.Artist
@@ -120,7 +120,6 @@ fig = go.Figure(data=[edge_trace, node_trace],
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                 )
-
 
 ########### Initiate the app
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']

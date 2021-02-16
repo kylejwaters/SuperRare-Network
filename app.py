@@ -141,13 +141,13 @@ app.layout = html.Div(children=[
                   dcc.Input(id='sr-user', value='artnome', type='text')]),
         html.Div(["Degree of Separation: ",
                   dcc.Input(id='degree', value=1, type='text')]),
-    ]),
         
     html.Br(),
     
     dcc.Graph(
         id='SuperRare User Network'
-    ),
+    )
+    ]),
     html.A('Code on Github', href=githublink),
     html.Br(),
     html.A('Data Source', href=sourceurl),

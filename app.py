@@ -97,7 +97,7 @@ def get_network(sr_user,degree):
     annot="This networkx.Graph has the ----- layout<br>Code:"+\
     "<a href='http://nbviewer.ipython.org/gist/empet/07ea33b2e4e0b84193bd'> [2]</a>"
     
-    if degree == 1:
+    if degree == "1" or degree == 1:
     
         title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
     
@@ -155,7 +155,7 @@ app.layout = html.Div(children=[
 )
 
 @app.callback(
-    [Output('SuperRare User Network', 'figure')],
+    Output('SuperRare User Network', 'figure'),
     [Input(component_id='sr-user', component_property='value'),
     Input(component_id='degree', component_property='value')]
 )

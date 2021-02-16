@@ -68,43 +68,47 @@ def get_network(sr_user,degree):
     
     node_text = ["{}\nDegree:{}".format(x[0],x[1]) for x in nx.degree(hub_ego) if x[0] != sr_user] 
     
+    if degree == "1" or degree == 1:
+    
+        title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
+        mode_ = "markers+text"
+        
+    else:
+    
+        title_graph = "SuperRare users within {} degrees of {}".format(degree,sr_user)
+        mode_ = "markers"
+    
     trace4=go.Scatter(x=Xv,
                    y=Yv,
-                   mode='markers',
+                   mode=mode_,
                    name='net',
                    marker=dict(symbol='circle-dot',
                                  size=10,
                                  color='#6959CD',
                                  line=dict(color='rgb(50,50,50)', width=0.5)
                                  ),
-                   text=node_text,
-                   hoverinfo='text'
+                   text=["{}".format(x[0]) for x in nx.degree(hub_ego) if x[0] != sr_user],
+                   hovertext=node_text,
+                   hoverinfo='text',
+                   textposition="bottom center",
                    )
     
     trace5=go.Scatter(x=[pos[sr_user][0]],
                       y=[pos[sr_user][1]],
-                   mode='markers',
+                   mode=mode_,
                    name='net',
                    marker=dict(symbol='circle-dot',
                                  size=20,
                                  color='red',
                                  line=dict(color='rgb(50,50,50)', width=0.5)
                                  ),
-                   text=["{}\nDegree:{}".format(x[0],x[1]) for x in nx.degree(hub_ego) if x[0] == sr_user],
+                   text=["{}".format(x[0]) for x in nx.degree(hub_ego) if x[0] == sr_user],
+                   hovertext=["{}\nDegree:{}".format(x[0],x[1]) for x in nx.degree(hub_ego) if x[0] == sr_user],
                    hoverinfo='text'
                    )
     
-    annot="This networkx.Graph has the ----- layout<br>Code:"+\
-    "<a href='http://nbviewer.ipython.org/gist/empet/07ea33b2e4e0b84193bd'> [2]</a>"
-    
-    if degree == "1" or degree == 1:
-    
-        title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
-    
-    else:
-    
-        title_graph = "SuperRare users within {} degrees of {}".format(degree,sr_user)
-    
+    #annot="This networkx.Graph has the ----- layout<br>Code:"+\
+    #"<a href='http://nbviewer.ipython.org/gist/empet/07ea33b2e4e0b84193bd'> [2]</a>"
     
     data1=[trace3, trace4, trace5]
     fig1=go.Figure(data=data1,layout=go.Layout(
@@ -113,15 +117,15 @@ def get_network(sr_user,degree):
                     showlegend=False,
                     hovermode='closest',
                     margin=dict(b=20,l=5,r=5,t=40),
-                    annotations=[ dict(
-                        #text="Python code: <a href='https://plotly.com/ipython-notebooks/network-graphs/'> https://plotly.com/ipython-notebooks/network-graphs/</a>",
-                        showarrow=False,
-                        xref="paper", yref="paper",
-                        x=0.005, y=-0.002 ) ],
+                    #annotations=[ dict(
+                    #    #text="Python code: <a href='https://plotly.com/ipython-notebooks/network-graphs/'> https://plotly.com/ipython-notebooks/network-graphs/</a>",
+                    #    showarrow=False,
+                    #    xref="paper", yref="paper",
+                    #    x=0.005, y=-0.002 ) ],
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
-    fig1['layout']['annotations'][0]['text']=annot
+    #fig1['layout']['annotations'][0]['text']=annot
     fig1.update_layout(transition_duration=500)
     
     return fig1

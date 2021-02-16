@@ -99,7 +99,7 @@ def get_network(sr_user,degree):
     
     if degree == 1:
     
-        title_graph = "SuperRare users who currently own work an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
+        title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
     
     else:
     
@@ -155,9 +155,9 @@ app.layout = html.Div(children=[
 )
 
 @app.callback(
-    Output('SuperRare User Network', 'figure'),
-    Input(component_id='sr-user', component_property='value'),
-    Input(component_id='degree', component_property='value')
+    [Output('SuperRare User Network', 'figure')],
+    [Input(component_id='sr-user', component_property='value'),
+    Input(component_id='degree', component_property='value')]
 )
 def update_network(sr_user,degree):
     return get_network(sr_user,degree)

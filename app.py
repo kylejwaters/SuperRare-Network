@@ -23,6 +23,7 @@ tabtitle='----'
 myheading='Who is in your SuperRare Crypto-Art Sphere?'
 githublink='https://github.com/kylejwaters/SuperRare-Network'
 sourceurl='https://superrare.co/'  
+kyletwitter = "https://twitter.com/waters_ky"
 
 ###########
 #Load data
@@ -154,7 +155,7 @@ app.layout = html.Div(children=[
     ]),
     html.A('Code on Github', href=githublink),
     html.Br(),
-    html.A('Data Source', href=sourceurl),
+    html.A('Created by Kyle Waters, 2021', href=kyletwitter),
     ]
 )
 

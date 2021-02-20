@@ -19,8 +19,8 @@ import pandas as pd
 ########
 
 url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors.csv?raw=True"
-tabtitle='----'
-myheading='Who is in your SuperRare Crypto-Art Sphere?'
+tabtitle='SuperRare Network Viewer'
+myheading='Who is in your SuperRare CryptoArt Sphere?'
 githublink='https://github.com/kylejwaters/SuperRare-Network'
 sourceurl='https://superrare.co/'  
 kyletwitter = "https://twitter.com/waters_ky"
@@ -45,9 +45,9 @@ G=nx.from_pandas_edgelist(df_pairs, 'From', 'To')
 ##################    
 #Generate a graph from the dataframe
 ##################
-def get_network(sr_user,degree):
+def get_network(sr_user):
     
-    hub_ego = nx.ego_graph(G, sr_user, radius=int(degree))
+    hub_ego = nx.ego_graph(G, sr_user, radius=1)
     pos = nx.spring_layout(hub_ego)
     
     ## with help from https://plotly.com/python/network-graphs/ ##
@@ -63,21 +63,14 @@ def get_network(sr_user,degree):
     trace3=go.Scatter(x=Xed,
                    y=Yed,
                    mode='lines',
-                   line=dict(color='rgb(210,210,210)', width=1),
+                   line=dict(color='rgb(200,200,200)', width=1),
                    hoverinfo='none'
                    )
     
     node_text = ["{}\nDegree:{}".format(x[0],x[1]) for x in nx.degree(hub_ego) if x[0] != sr_user] 
     
-    if degree == "1" or degree == 1:
-    
-        title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
-        mode_ = "markers+text"
-        
-    else:
-    
-        title_graph = "SuperRare users within {} degrees of {}".format(degree,sr_user)
-        mode_ = "markers"
+    title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
+    mode_ = "markers+text"
     
     trace4=go.Scatter(x=Xv,
                    y=Yv,
@@ -144,14 +137,11 @@ app.layout = html.Div(children=[
     html.Div([
         html.Div(["SR User: ",
                   dcc.Input(id='sr-user', value='artnome', type='text')]),
-        html.Div(["Degree of Separation: ",
-                  dcc.Input(id='degree', value=1, type='text')]),
         
     html.Br(),
     
     dcc.Graph(
-        id='SuperRare User Network'
-    )
+        id='User SuperRare Network')
     ]),
     html.A('Code on Github', href=githublink),
     html.Br(),
@@ -160,12 +150,11 @@ app.layout = html.Div(children=[
 )
 
 @app.callback(
-    Output('SuperRare User Network', 'figure'),
-    [Input(component_id='sr-user', component_property='value'),
-    Input(component_id='degree', component_property='value')]
+    Output('User SuperRare Network', 'figure'),
+    [Input(component_id='sr-user', component_property='value')]
 )
-def update_network(sr_user,degree):
-    return get_network(sr_user,degree)
+def update_network(sr_user):
+    return get_network(sr_user)
 
 if __name__ == '__main__':
     app.run_server()

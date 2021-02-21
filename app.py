@@ -18,7 +18,7 @@ import pandas as pd
 # Data and Variables
 ########
 
-url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors.csv?raw=True"
+url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors_2021-02-20.csv?raw=True"
 tabtitle='SuperRare Network Viewer'
 myheading='Who is in your SuperRare CryptoArt Sphere?'
 githublink='https://github.com/kylejwaters/SuperRare-Network'
@@ -145,7 +145,9 @@ app.layout = html.Div(children=[
     ]),
     html.A('Code on Github', href=githublink),
     html.Br(),
-    html.A('Created by Kyle Waters, 2021', href=kyletwitter),
+    html.A('Created by Kyle Waters', href=kyletwitter),
+    html.Br(),
+    html.A('Data as of February 20, 2021')
     ]
 )
 

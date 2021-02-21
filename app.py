@@ -147,7 +147,7 @@ app.layout = html.Div(children=[
     html.Br(),
     html.A('Created by Kyle Waters', href=kyletwitter),
     html.Br(),
-    html.A('Data as of February 20, 2021')
+    html.A('Data as of February 20, 2021', href=sourceurl)
     ]
 )
 

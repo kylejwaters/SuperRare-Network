@@ -11,14 +11,13 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
 import networkx as nx
-import numpy as np
 import pandas as pd
 
 ########
 # Data and Variables
 ########
 
-url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors_2021-02-20.csv?raw=True"
+url_github_SR_data = "https://github.com/kylejwaters/SuperRare-Network/blob/main/superrare%20top%20artists%20and%20collectors_2021-02-27.csv?raw=True"
 tabtitle='SuperRare Network Viewer'
 myheading='Who is in your SuperRare CryptoArt Sphere?'
 githublink='https://github.com/kylejwaters/SuperRare-Network'
@@ -32,6 +31,7 @@ kyletwitter = "https://twitter.com/waters_ky"
 df_collector_artist_pairs = pd.read_csv(url_github_SR_data)    
 #Create pairings
 df_pairs = pd.DataFrame()
+#From is artist, to is collector
 df_pairs["From"] = df_collector_artist_pairs.Artist
 df_pairs["To"] = df_collector_artist_pairs.Collector
 #Remove duplicates
@@ -52,6 +52,10 @@ def get_network(sr_user):
     
     ## with help from https://plotly.com/python/network-graphs/ ##
     
+    ###
+    #Edges 
+    ###
+    
     Xv=[pos[k][0] for k in hub_ego.nodes if k != sr_user]
     Yv=[pos[k][1] for k in hub_ego.nodes if k != sr_user]
     Xed=[]
@@ -60,6 +64,7 @@ def get_network(sr_user):
         Xed+=[pos[edge[0]][0],pos[edge[1]][0], None]
         Yed+=[pos[edge[0]][1],pos[edge[1]][1], None]
     
+    #Edges 
     trace3=go.Scatter(x=Xed,
                    y=Yed,
                    mode='lines',
@@ -69,9 +74,11 @@ def get_network(sr_user):
     
     node_text = ["{}\nDegree:{}".format(x[0],x[1]) for x in nx.degree(hub_ego) if x[0] != sr_user] 
     
-    title_graph = "SuperRare users who currently own an artwork created by {} OR have sold an artwork to {}".format(sr_user,sr_user)
+    profile = "https://superrare.co/{}".format(sr_user)
+    title_graph = "SR users connected to {} ({})".format(sr_user, profile)
     mode_ = "markers+text"
     
+    #Nodes
     trace4=go.Scatter(x=Xv,
                    y=Yv,
                    mode=mode_,
@@ -87,6 +94,7 @@ def get_network(sr_user):
                    textposition="bottom center",
                    )
     
+    #SR user node
     trace5=go.Scatter(x=[pos[sr_user][0]],
                       y=[pos[sr_user][1]],
                    mode=mode_,
@@ -147,7 +155,7 @@ app.layout = html.Div(children=[
     html.Br(),
     html.A('Created by Kyle Waters', href=kyletwitter),
     html.Br(),
-    html.A('Data as of February 20, 2021', href=sourceurl)
+    html.A('Source (Data as of February 27, 2021)', href=sourceurl)
     ]
 )
 
